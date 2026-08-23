@@ -380,3 +380,27 @@ Published to `luluthehungrycat` SSH origins:
 
 The first Bash-wrap tag exposed that built `dist/` output was ignored and absent from the Git repository. It was corrected in commit `e76087c`; `v0.1.6` now points to that commit. Fresh GitHub SSH installs/imports pass for all three OMP ports.
 
+### GitHub Packages and CI — 2026-08-23
+
+The verified packages now use the owner scope required by GitHub Packages:
+
+- `@luluthehungrycat/omp-pi-bash-wrap`;
+- `@luluthehungrycat/omp-pi-sandbox-oddsjam`;
+- `@luluthehungrycat/omp-pi-sandbox-carderne`;
+- Gondolin metadata is staged but remains unpublished because its runtime is blocked.
+
+Each package declares both `pi.extensions` and `omp.extensions`. Each verified package has:
+
+- Bun 1.4.0 test CI on `main` and pull requests;
+- tag-triggered GitHub Packages publishing using repository-scoped `GITHUB_TOKEN` with `packages: write`;
+- README instructions for GitHub Packages authentication and `omp plugin install`;
+- no personal access token stored in the repository.
+
+Published package workflow results:
+
+- Bash-wrap `v0.1.8`: **PASS**;
+- OddsJam `v0.1.1`: **PASS**;
+- Carderne `v0.6.6`: **PASS**.
+
+Bash-wrap's earlier `v0.1.7` workflow failed because its legacy `prepublishOnly` script attempted an npm/TypeScript rebuild without dev dependencies. The release workflow now uses the committed, independently tested `dist/` artifacts with `npm publish --ignore-scripts`. Legacy npm-publish workflows were removed from Bash-wrap and Carderne.
+
