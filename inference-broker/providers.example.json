@@ -1,0 +1,35 @@
+{
+  "providers": {
+    "openrouter": {
+      "kind": "openai-chat",
+      "base_url": "https://openrouter.ai/api/v1",
+      "api_key_env": "OPENROUTER_API_KEY",
+      "models": [
+        "openai/gpt-5.2"
+      ],
+      "headers": {
+        "HTTP-Referer": "https://localhost/omp-broker",
+        "X-OpenRouter-Title": "OMP inference broker"
+      }
+    },
+    "opencode-go": {
+      "kind": "openai-chat",
+      "base_url": "https://opencode.ai/zen/go/v1",
+      "api_key_env": "OPENCODE_GO_API_KEY",
+      "models": [
+        "kimi-k3",
+        "glm-5.3"
+      ],
+      "headers": {}
+    },
+    "codex-oauth": {
+      "kind": "host-openai-chat",
+      "base_url": "http://127.0.0.1:18080",
+      "api_key_env": null,
+      "models": [
+        "gpt-5.5"
+      ],
+      "headers": {}
+    }
+  }
+}

@@ -1,0 +1,14 @@
+[Unit]
+Description=Codex as API
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Environment=CODEX_AS_API_HOST=127.0.0.1
+Environment=CODEX_AS_API_PORT=18080
+ExecStart=/home/hermes/.local/bin/codex-as-api
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=default.target

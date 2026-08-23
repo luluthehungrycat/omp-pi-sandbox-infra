@@ -1,0 +1,12 @@
+providers:
+  codex-oauth:
+    baseUrl: http://127.0.0.1:8090/v1
+    api: openai-completions
+    auth: none
+    models:
+      - id: gpt-5.5
+        name: Codex OAuth via host broker
+        reasoning: false
+        supportsTools: false
+        contextWindow: 272000
+        maxTokens: 8192

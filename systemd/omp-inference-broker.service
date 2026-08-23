@@ -1,0 +1,28 @@
+[Unit]
+Description=OMP host-side inference broker
+After=codex-as-api.service llama-router.service
+Wants=codex-as-api.service llama-router.service
+
+[Service]
+Type=simple
+Environment=OMP_INFERENCE_SOCKET=%t/omp-inference.sock
+Environment=OMP_BROKER_PROVIDER_CONFIG=%h/.config/omp-inference-broker/providers.local.json
+Environment=OMP_LOCAL_BACKEND_HOST=127.0.0.1
+Environment=OMP_LOCAL_BACKEND_PORT=8080
+Environment=OMP_BROKER_TIMEOUT=180
+Environment=OMP_BROKER_MAX_IN_FLIGHT=2
+EnvironmentFile=-%h/.config/omp-inference-broker/providers.env
+ExecStart=/usr/bin/python3 %h/omp-sandbox-dev/inference-broker/broker.py
+Restart=on-failure
+RestartSec=3
+UMask=0077
+NoNewPrivileges=true
+PrivateTmp=true
+PrivateDevices=true
+ProtectSystem=strict
+ProtectHome=read-only
+ReadWritePaths=%t
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+
+[Install]
+WantedBy=default.target

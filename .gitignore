@@ -1,0 +1,14 @@
+# Generated/runtime state
+__pycache__/
+*.pyc
+
+# Disposable test state
+/test-home/
+/test-project/
+disposable-worktrees/
+/test-result/*.json
+/test-result/*.sock
+/test-result/*.txt
+
+# Nested source repositories
+/plugins/
