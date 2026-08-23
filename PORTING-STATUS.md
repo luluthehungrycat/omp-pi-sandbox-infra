@@ -319,3 +319,34 @@ credentials were accessed or logged during this work.
 - `omp-inference-broker.service`: active with runtime socket mode `0600`;
 - final production-style OMP request: **PASS**, `FINAL_PRODUCTION_PASS`.
 
+## Follow-up release-candidate verification — 2026-08-23
+
+### Package/install smoke tests
+
+- pi-bash-wrap tarball extraction/import: **PASS**;
+- pi-sandbox-oddsjam tarball extraction/import: **PASS**;
+- pi-sandbox-carderne clean OMP-only install/import: **PASS**;
+- Carderne package contents narrowed from 24 files / ~1.9 MB to 10 runtime/documentation files / ~56 KB;
+- Carderne legacy runtime imports replaced with OMP 18 APIs;
+- Carderne `bun run check`: **PASS**;
+- Carderne tests: **22/22 PASS**.
+
+### Broker operational hardening
+
+`inference-broker/test_operational.py` now verifies with real subprocesses:
+
+- health endpoint: **PASS**;
+- successful host-provider forwarding: **PASS**;
+- upstream timeout returns 502 within the configured bound: **PASS**;
+- SIGTERM shutdown removes the Unix socket: **PASS**;
+- restart recreates the socket and becomes healthy: **PASS**;
+- credential value absent from broker logs: **PASS**.
+
+### Gondolin current status
+
+Gondolin remains **BLOCKED** and uncommitted. The current checkout reproduces an earlier-stage compatibility failure before native-module loading:
+
+`Cannot find module '@mariozechner/pi-coding-agent'`
+
+The checkout has an uncommitted OMP dependency experiment (`package.json`/`bun.lock`). No Gondolin containment or fallback behavior was changed. The previously documented Bun/native `uv_version_string` failure remains a separate follow-up once stale imports are resolved.
+

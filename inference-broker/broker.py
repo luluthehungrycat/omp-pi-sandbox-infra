@@ -16,6 +16,7 @@ import json
 import logging
 import os
 import select
+import signal
 import socket
 import socketserver
 import threading
@@ -287,6 +288,13 @@ def main() -> None:
     server = UnixHTTPServer(str(SOCKET_PATH), Handler)
     os.chmod(SOCKET_PATH, 0o600)
     log.info("listening on %s providers=%s", SOCKET_PATH, ",".join(sorted(PROVIDERS)))
+
+    def request_shutdown(_signum: int, _frame: Any) -> None:
+        # shutdown() must run off the serve_forever thread to avoid deadlock.
+        threading.Thread(target=server.shutdown, name="broker-shutdown", daemon=True).start()
+
+    signal.signal(signal.SIGTERM, request_shutdown)
+    signal.signal(signal.SIGINT, request_shutdown)
     try:
         server.serve_forever()
     finally:
