@@ -368,3 +368,15 @@ The stale `@mariozechner/pi-coding-agent` imports were replaced with OMP 18 exte
 
 The crash occurs while loading `ssh2`'s `sshcrypto.node`, before extension registration. Gondolin remains **BLOCKED**. No unsandboxed fallback or containment weakening was added.
 
+### GitHub publication verification
+
+Published to `luluthehungrycat` SSH origins:
+
+- `omp-pi-bash-wrap`, `main`, tag `v0.1.6`;
+- `omp-pi-sandbox-oddsjam`, `main`, tag `v0.1.0`;
+- `omp-pi-sandbox-carderne`, `main`, tag `v0.6.5`;
+- `omp-pi-sandbox-infra`, `main`;
+- `omp-pi-gondolin`, `main`, tag `v0.1.0`.
+
+The first Bash-wrap tag exposed that built `dist/` output was ignored and absent from the Git repository. It was corrected in commit `e76087c`; `v0.1.6` now points to that commit. Fresh GitHub SSH installs/imports pass for all three OMP ports.
+
