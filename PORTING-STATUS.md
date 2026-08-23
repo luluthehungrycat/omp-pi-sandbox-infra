@@ -360,3 +360,11 @@ A fresh disposable Bun/OMP installation of all three packed release candidates w
 
 This test caught and fixed a hidden OddsJam legacy runtime import that source-level tests had not exposed. OddsJam now uses OMP 18 runtime/type/UI imports, has no legacy peer dependencies, and passes `bun run typecheck` plus **157/157 tests**.
 
+### Gondolin partial OMP port
+
+The stale `@mariozechner/pi-coding-agent` imports were replaced with OMP 18 extension/shim imports and the OMP development dependency was recorded. The loader now reaches Gondolin's native dependency and fails reproducibly under Bun 1.4.0:
+
+`panic: unsupported uv function: uv_version_string`
+
+The crash occurs while loading `ssh2`'s `sshcrypto.node`, before extension registration. Gondolin remains **BLOCKED**. No unsandboxed fallback or containment weakening was added.
+
