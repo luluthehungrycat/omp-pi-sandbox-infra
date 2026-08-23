@@ -350,3 +350,13 @@ Gondolin remains **BLOCKED** and uncommitted. The current checkout reproduces an
 
 The checkout has an uncommitted OMP dependency experiment (`package.json`/`bun.lock`). No Gondolin containment or fallback behavior was changed. The previously documented Bun/native `uv_version_string` failure remains a separate follow-up once stale imports are resolved.
 
+### Installed-package boundary verification
+
+A fresh disposable Bun/OMP installation of all three packed release candidates was mounted read-only into a new rootless Podman container with `--network=none`, dropped capabilities, `no-new-privileges`, read-only root, resource limits, and only a disposable writable HOME. Each package loaded and completed broker-backed inference:
+
+- installed pi-bash-wrap: **PASS**, `INSTALLED_BASH_WRAP`;
+- installed pi-sandbox-oddsjam: **PASS**, `INSTALLED_ODDSJAM`;
+- installed pi-sandbox-carderne: **PASS**, `INSTALLED_CARDERNE`.
+
+This test caught and fixed a hidden OddsJam legacy runtime import that source-level tests had not exposed. OddsJam now uses OMP 18 runtime/type/UI imports, has no legacy peer dependencies, and passes `bun run typecheck` plus **157/157 tests**.
+
