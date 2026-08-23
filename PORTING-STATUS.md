@@ -404,3 +404,16 @@ Published package workflow results:
 
 Bash-wrap's earlier `v0.1.7` workflow failed because its legacy `prepublishOnly` script attempted an npm/TypeScript rebuild without dev dependencies. The release workflow now uses the committed, independently tested `dist/` artifacts with `npm publish --ignore-scripts`. Legacy npm-publish workflows were removed from Bash-wrap and Carderne.
 
+### GitHub Packages consumer verification — 2026-08-23
+
+The publishing token at `~/.secrets/luluthehungrycat_publishingPAT.txt` was verified in memory only. It authenticates as `luluthehungrycat`, has `write:packages`, and exposes the three published packages as public GitHub Packages.
+
+A disposable project with a temporary `.npmrc` successfully installed all three package versions with Bun 1.4.0. A separate disposable `HOME` with an isolated Bun cache successfully ran the actual OMP plugin manager:
+
+- `omp plugin install @luluthehungrycat/omp-pi-bash-wrap@0.1.8`: **PASS**;
+- `omp plugin install @luluthehungrycat/omp-pi-sandbox-oddsjam@0.1.1`: **PASS**;
+- `omp plugin install @luluthehungrycat/omp-pi-sandbox-carderne@0.6.6`: **PASS**;
+- `omp plugin list`: **PASS**, all three registered.
+
+The first isolated OMP attempt encountered a transient `sharp` tarball integrity failure; retrying with a fresh Bun cache passed. No production `~/.omp`, credentials, or user data were modified.
+
