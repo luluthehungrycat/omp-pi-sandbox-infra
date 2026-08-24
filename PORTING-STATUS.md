@@ -436,3 +436,5 @@ The release verification workflows were manually executed against `main` after t
 
 Latest Gondolin `0.12.0` was tested under Bun 1.4.0 and still aborts while importing `ssh2` with `unsupported uv function: uv_version_string`. The issue is tracked upstream in Bun #18546. Gondolin remains blocked and unpublished; no unsafe workaround was added.
 
+The Bash-wrap Development section was updated to use the public `luluthehungrycat` repository, Bun 1.4.0, `bun install --frozen-lockfile`, `bun run build`, and `bun test`. The local documented commands pass with **49/49 tests**.
+
