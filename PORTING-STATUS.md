@@ -438,3 +438,21 @@ Latest Gondolin `0.12.0` was tested under Bun 1.4.0 and still aborts while impor
 
 The Bash-wrap Development section was updated to use the public `luluthehungrycat` repository, Bun 1.4.0, `bun install --frozen-lockfile`, `bun run build`, and `bun test`. The local documented commands pass with **49/49 tests**.
 
+### Release hardening implementation
+
+The host OMP installation was updated and resynchronized successfully to `omp/18.0.4` after a transient native-cache mismatch during the first `omp update` attempt.
+
+The three package repositories now call reusable workflows hosted by `omp-pi-sandbox-infra@main` rather than duplicating release logic. The OMP/Bun compatibility matrices pass for OMP `18.0.0` and `18.0.4` on Bun `1.4.0`:
+
+- Bash-wrap matrix: https://github.com/luluthehungrycat/omp-pi-bash-wrap/actions/runs/32723876374
+- OddsJam matrix: https://github.com/luluthehungrycat/omp-pi-sandbox-oddsjam/actions/runs/32723880413
+- Carderne matrix: https://github.com/luluthehungrycat/omp-pi-sandbox-carderne/actions/runs/32723886113
+
+Reusable release verification also passes:
+
+- Bash-wrap: https://github.com/luluthehungrycat/omp-pi-bash-wrap/actions/runs/32724203423
+- OddsJam: https://github.com/luluthehungrycat/omp-pi-sandbox-oddsjam/actions/runs/32724209667
+- Carderne: https://github.com/luluthehungrycat/omp-pi-sandbox-carderne/actions/runs/32724215662
+
+The local consolidated runtime gate passes `BOUNDARY_PASS`, all adversarial sandbox probes, `BROKER_CONTAINER_OK`, and `RUNTIME_INTEGRATION_PASS`. Roadmaps and the OpenSpec change are under `ROADMAP.md` and `openspec/changes/omp-port-release-hardening/`.
+
