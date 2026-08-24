@@ -1,0 +1,49 @@
+name: Reusable Public Git Plugin Smoke
+
+on:
+  workflow_call:
+    inputs:
+      plugin_repository:
+        required: true
+        type: string
+      omp_version:
+        required: false
+        default: '18.0.4'
+        type: string
+      bun_version:
+        required: false
+        default: '1.4.0'
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  plugin-smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: ${{ inputs.bun_version }}
+      - name: Install OMP
+        run: bun install --global @oh-my-pi/pi-coding-agent@${{ inputs.omp_version }}
+      - name: Install public Git plugin and run health check
+        shell: bash
+        env:
+          PLUGIN_REPOSITORY: ${{ inputs.plugin_repository }}
+        run: |
+          set -euo pipefail
+          if [[ "$GITHUB_REF_TYPE" == "tag" ]]; then REF="$GITHUB_REF_NAME"; else REF="$GITHUB_SHA"; fi
+          SPEC="github:${PLUGIN_REPOSITORY}#${REF}"
+          for attempt in 1 2 3; do
+            TEST_HOME="$(mktemp -d)"
+            if HOME="$TEST_HOME" XDG_CONFIG_HOME="$TEST_HOME/config" XDG_DATA_HOME="$TEST_HOME/data" XDG_CACHE_HOME="$TEST_HOME/cache" BUN_INSTALL_CACHE_DIR="$TEST_HOME/bun-cache" env -u GITHUB_TOKEN -u GH_TOKEN omp plugin install "$SPEC" && \
+               HOME="$TEST_HOME" XDG_CONFIG_HOME="$TEST_HOME/config" XDG_DATA_HOME="$TEST_HOME/data" XDG_CACHE_HOME="$TEST_HOME/cache" BUN_INSTALL_CACHE_DIR="$TEST_HOME/bun-cache" env -u GITHUB_TOKEN -u GH_TOKEN omp plugin list && \
+               HOME="$TEST_HOME" XDG_CONFIG_HOME="$TEST_HOME/config" XDG_DATA_HOME="$TEST_HOME/data" XDG_CACHE_HOME="$TEST_HOME/cache" BUN_INSTALL_CACHE_DIR="$TEST_HOME/bun-cache" env -u GITHUB_TOKEN -u GH_TOKEN omp plugin doctor; then
+              rm -rf "$TEST_HOME"
+              exit 0
+            fi
+            rm -rf "$TEST_HOME"
+            echo "attempt $attempt failed; retrying with a fresh cache" >&2
+          done
+          exit 1
