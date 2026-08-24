@@ -18,7 +18,7 @@
 - [x] 3.1 Verify the broker socket and HTTP bridge under rootless Podman.
 - [x] 3.2 Verify a real container inference response (`BROKER_CONTAINER_OK`).
 - [x] 3.3 Add adversarial sandbox tool-call fixtures to the runtime gate.
-- [x] 3.4 Make runtime integration a required release status check.
+- [ ] 3.4 Promote broker-backed runtime integration to a hosted required release status check once CI provides the approved broker service.
 
 ## 4. Gondolin
 

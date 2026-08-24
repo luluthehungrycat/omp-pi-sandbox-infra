@@ -21,7 +21,8 @@ Track the verified migration of selected Pi extensions to OMP 18 while preservin
 
 - [x] Consolidate duplicated package workflows into reusable infrastructure workflows.
 - [x] Add and execute an OMP/Bun compatibility matrix covering OMP 18.0.0/18.0.4 on Bun 1.4.0.
-- [x] Add the broker-backed runtime integration gate and make it part of release verification.
+- [x] Add and pass the local broker-backed runtime integration gate.
+- [ ] Promote broker-backed runtime integration to a hosted required status check when CI provides the approved broker service.
 - [x] Prepare the Gondolin/Bun native-module compatibility report for upstream submission.
 - [x] Add adversarial sandbox tool-call fixtures to the runtime gate.
 
