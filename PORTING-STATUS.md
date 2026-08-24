@@ -393,7 +393,7 @@ Each package declares both `pi.extensions` and `omp.extensions`. Each verified p
 
 - Bun 1.4.0 test CI on `main` and pull requests;
 - tag-triggered GitHub Packages publishing using repository-scoped `GITHUB_TOKEN` with `packages: write`;
-- README instructions for GitHub Packages authentication and `omp plugin install`;
+- README instructions for public no-token `github:` installation plus optional authenticated GitHub Packages installation;
 - no personal access token stored in the repository.
 
 Published package workflow results:
@@ -416,4 +416,23 @@ A disposable project with a temporary `.npmrc` successfully installed all three 
 - `omp plugin list`: **PASS**, all three registered.
 
 The first isolated OMP attempt encountered a transient `sharp` tarball integrity failure; retrying with a fresh Bun cache passed. No production `~/.omp`, credentials, or user data were modified.
+
+### Public Git adoption and release gates
+
+The public no-token installation path was verified for all three ports in disposable environments:
+
+- `github:luluthehungrycat/omp-pi-bash-wrap#v0.1.8`: **PASS**;
+- `github:luluthehungrycat/omp-pi-sandbox-oddsjam#v0.1.1`: **PASS**;
+- `github:luluthehungrycat/omp-pi-sandbox-carderne#v0.6.6`: **PASS**.
+
+Each verified package repository now contains:
+
+- public Git plugin-manager smoke CI with isolated `HOME`, cache, `omp plugin list`, and `omp plugin doctor`;
+- release verification for public Git installation without tokens;
+- release verification for GitHub Packages installation with repository `GITHUB_TOKEN`;
+- a portable Podman containment boundary gate covering workspace writes, outside-root writes, host-marker visibility, Docker socket absence, and network denial.
+
+The release verification workflows were manually executed against `main` after the dynamic package-version fix; all three passed both installation paths and the Podman boundary.
+
+Latest Gondolin `0.12.0` was tested under Bun 1.4.0 and still aborts while importing `ssh2` with `unsupported uv function: uv_version_string`. The issue is tracked upstream in Bun #18546. Gondolin remains blocked and unpublished; no unsafe workaround was added.
 
