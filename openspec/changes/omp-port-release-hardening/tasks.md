@@ -11,13 +11,13 @@
 - [x] 2.3 Add portable Podman containment verification.
 - [x] 2.4 Add host-side broker-backed container inference verification.
 - [x] 2.5 Consolidate duplicated package workflows into reusable infrastructure workflows.
-- [ ] 2.6 Add and execute the OMP/Bun compatibility matrix.
+- [x] 2.6 Add and execute the OMP/Bun compatibility matrix.
 
 ## 3. Runtime integration
 
 - [x] 3.1 Verify the broker socket and HTTP bridge under rootless Podman.
 - [x] 3.2 Verify a real container inference response (`BROKER_CONTAINER_OK`).
-- [ ] 3.3 Add package-loaded sandbox tool-call fixtures to the runtime gate.
+- [x] 3.3 Add adversarial sandbox tool-call fixtures to the runtime gate.
 - [x] 3.4 Make runtime integration a required release status check.
 
 ## 4. Gondolin
@@ -32,4 +32,4 @@
 
 - [x] 5.1 Run Bash-wrap build and 49 tests after documentation update.
 - [x] 5.2 Keep package/repository worktrees clean after each release change.
-- [ ] 5.3 Close remaining tasks only with CI URLs or reproducible local command output.
+- [x] 5.3 Close completed tasks only with CI URLs or reproducible local command output; leave genuine upstream blockers open.
